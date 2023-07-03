@@ -5,7 +5,7 @@ const path = require('path');
 const ROMPTH = /^OMP_NUM_THREADS=(\d+)/;
 const RGRAPH = /^Loading graph .*\/(.*?)\.mtx \.\.\./m;
 const RORDER = /^order: (\d+) size: (\d+) (?:\[\w+\] )?\{\}/m;
-const RRESLT = /^\{block: (\d+), degrees: (\d+)-(\d+), count: (\d+)\}/m;
+const RRESLT = /^\{block: (\d+), ranks: (.+?) -> (.+?), count: (\d+)\}/m;
 
 
 
@@ -60,12 +60,12 @@ function readLogLine(ln, data, state) {
     state.size  = parseFloat(size);
   }
   else if (RRESLT.test(ln)) {
-    var [, block, degrees_start, degrees_end, count] = RRESLT.exec(ln);
+    var [, block, ranks_start, ranks_end, count] = RRESLT.exec(ln);
     data.get(state.graph).push(Object.assign({}, state, {
-      block:         parseFloat(block),
-      degrees_start: parseFloat(degrees_start),
-      degrees_end:   parseFloat(degrees_end),
-      count:         parseFloat(count),
+      block:       parseFloat(block),
+      ranks_start: parseFloat(ranks_start),
+      ranks_end:   parseFloat(ranks_end),
+      count:       parseFloat(count),
     }));
   }
   return state;

@@ -41,7 +41,7 @@ void runExperiment(const G& x, const H& xt) {
   });
   // Print the compressed distribution
   for (size_t b=0; b<256; ++b)
-    printf("{block: %zu, ranks: %.6e -> %.6e count: %zu}\n", b, b*step, (b+1)*step, size_t(cdist[b]));
+    printf("{block: %zu, ranks: %.6e -> %.6e, count: %zu}\n", b, b*step, (b+1)*step, size_t(cdist[b]));
 }
 
 
