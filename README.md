@@ -50,6 +50,7 @@ Some [charts] are also included below, generated from [sheets].
 
 [![](https://img.youtube.com/vi/E8WaFvwtphY/maxresdefault.jpg)](https://www.youtube.com/watch?v=E8WaFvwtphY)<br>
 [![ORG](https://img.shields.io/badge/org-puzzlef-green?logo=Org)](https://puzzlef.github.io)
+[![DOI](https://zenodo.org/badge/661505932.svg)](https://zenodo.org/badge/latestdoi/661505932)
 
 
 [degrees]: https://github.com/puzzlef/graph-degree-distribution
