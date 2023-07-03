@@ -23,22 +23,25 @@ using namespace std;
 // PERFORM EXPERIMENT
 // ------------------
 
-template <class G>
-void runExperiment(const G& x) {
-  using K = typename G::key_type;
+template <class G, class H>
+void runExperiment(const G& x, const H& xt) {
+  using  K = typename G::key_type;
+  vector<double> *init = nullptr;
   if (x.empty()) return;
-  size_t  N = x.order();
-  auto degs = degrees(x);
-  auto dist = degreeDistribution(x);
-  auto dmax = max_element(degs.begin(), degs.end());
-  // Compress the distribution to upto 256 entries
-  size_t step = size_t(max(K(1), ceilDiv(*dmax + K(1), K(256))));
+  size_t N = x.order();
+  auto   a = pagerankBasicOmp(xt, init, {1});
+  vector<double>& ranks = a.ranks;
+  double maxr = *max_element(ranks.begin(), ranks.end());
+  // Compress the distribution to upto 256 entries.
+  double step = maxr/256;
   vector<K> cdist(256);
-  for (size_t d=0; d<=*dmax; ++d)
-    cdist[d/step] += dist[d];
+  x.forEachVertexKey([&](auto u) {
+    size_t b = min(size_t(ranks[u]/step), size_t(255));
+    ++cdist[b];
+  });
   // Print the compressed distribution
-  for (size_t d=0; d<256; ++d)
-    printf("{block: %zu, degrees: %zu-%zu, count: %zu}\n", d, d*step, (d+1)*step-1, size_t(cdist[d]));
+  for (size_t b=0; b<256; ++b)
+    printf("{block: %zu, ranks: %.6e -> %.6e count: %zu}\n", b, b*step, (b+1)*step, size_t(cdist[b]));
 }
 
 
@@ -53,9 +56,10 @@ int main(int argc, char **argv) {
   OutDiGraph<K, None, None> x;
   readMtxOmpW(x, file); println(x);
   auto ft = [](auto u) { return true; };
-  if (addSelfLoops)   { selfLoopOmpU(x, None(), ft); print(x); printf(" (selfLoopAllVertices)\n"); }
-  if (makeUndirected) { x = symmetricizeOmp(x);      print(x); printf(" (symmetricize)\n"); }
-  runExperiment(x);
+  if (addSelfLoops)   { selfLoopOmpU(x, None(), ft); print(x);  printf(" (selfLoopAllVertices)\n"); }
+  if (makeUndirected) { x = symmetricizeOmp(x);      print(x);  printf(" (symmetricize)\n"); }
+  auto xt = transposeWithDegreeOmp(x);               print(xt); printf(" (transposeWithDegree)\n");
+  runExperiment(x, xt);
   printf("\n");
   return 0;
 }
