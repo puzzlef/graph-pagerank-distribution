@@ -51,7 +51,7 @@ Some [charts] are also included below, generated from [sheets].
 [![](https://img.youtube.com/vi/E8WaFvwtphY/maxresdefault.jpg)](https://www.youtube.com/watch?v=E8WaFvwtphY)<br>
 [![ORG](https://img.shields.io/badge/org-puzzlef-green?logo=Org)](https://puzzlef.github.io)
 [![DOI](https://zenodo.org/badge/661505932.svg)](https://zenodo.org/badge/latestdoi/661505932)
-
+![](https://ga-beacon.deno.dev/G-KD28SG54JQ:hbAybl6nQFOtmVxW4if3xw/github.com/puzzlef/graph-pagerank-distribution)
 
 [degrees]: https://github.com/puzzlef/graph-degree-distribution
 [gist]: https://gist.github.com/wolfram77/aba4755b75b46313ffe75c225fbdae2b
